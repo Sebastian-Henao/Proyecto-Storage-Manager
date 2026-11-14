@@ -1,0 +1,68 @@
+.demo-card {
+  border: 1px solid #e4e7ec;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgb(16 24 40 / 5%);
+}
+
+.demo-card-header {
+  padding: 1.25rem;
+  border-bottom-color: #eaecf0;
+  border-radius: 1rem 1rem 0 0;
+  background: #fff;
+}
+
+.service-icon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: 0.85rem;
+  font-size: 1.25rem;
+}
+
+.cache-icon {
+  color: #7f56d9;
+  background: #f4f3ff;
+}
+
+.match-options {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.results {
+  min-height: 140px;
+  padding-top: 1rem;
+  border-top: 1px solid #eaecf0;
+}
+
+.empty-state {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: #f9fafb;
+  color: #667085;
+  font-size: 0.875rem;
+}
+
+.result-row {
+  background: transparent;
+}
+
+.result-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+}
+
+.result-dot--success {
+  background: #12b76a;
+}
+
+.result-dot--info {
+  background: #f79009;
+}
+
+.result-dot--error {
+  background: #f04438;
+}

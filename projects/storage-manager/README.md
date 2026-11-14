@@ -1,63 +1,94 @@
-# StorageManager
+# Estudiantes:
+Daniela Gutierrez Gallego - 230231001
+Sebastian Henao Gamboa - 230231021
+Kevin Andres Montes Camelo - 230231025
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.0.
+# UCEVA Angular Storage Manager
 
-## Code scaffolding
+Librería Angular para administrar almacenamiento del navegador mediante `localStorage` y la
+API `Cache Storage`. Los servicios se proporcionan en el inyector raíz de Angular.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Requisitos
 
-```bash
-ng generate component component-name
-```
+- Angular `^20.3.0` (`@angular/core` y `@angular/common`).
+- Para `LocalStorageService`, un entorno de navegador con `localStorage`.
+- Para `CacheStorageService`, un navegador que soporte Cache Storage. Esta API normalmente
+  requiere un contexto seguro (HTTPS o `localhost`).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Instalación
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the library, run:
-
-```bash
-ng build storage-manager
-```
-
-This command will compile your project, and the build artifacts will be placed in the `dist/` directory.
-
-### Publishing the Library
-
-Once the project is built, you can publish your library by following these steps:
-
-1. Navigate to the `dist` directory:
-   ```bash
-   cd dist/storage-manager
-   ```
-
-2. Run the `npm publish` command to publish your library to the npm registry:
-   ```bash
-   npm publish
-   ```
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Cuando el paquete esté publicado en npm:
 
 ```bash
-ng test
+npm install @sebastian-henao/storage-manager
 ```
 
-## Running end-to-end tests
+En una aplicación Angular también se deben cumplir las versiones peer de Angular indicadas
+por el paquete.
 
-For end-to-end (e2e) testing, run:
+## Uso de `LocalStorageService`
+
+Importa el servicio desde el paquete e inyéctalo en un servicio o componente:
+
+Los valores se serializan como JSON. El tipo indicado en `getItem<T>()` es una ayuda de
+TypeScript; no valida en tiempo de ejecución que el contenido almacenado corresponda a ese
+tipo.
+
+### Métodos
+
+| Método | Resultado | Descripción |
+| --- | --- | --- |
+| `setItem<T>(llave, valor)` | `boolean` | Guarda el valor serializado. Devuelve `false` si no se puede serializar o falla el almacenamiento. |
+| `getItem<T>(llave)` | `T \| null` | Lee y deserializa el valor; devuelve `null` si no existe o no se puede leer. |
+| `updateItem<T>(llave, valor)` | `boolean` | Actualiza una clave existente. No la crea si no existe. |
+| `removeItem(llave)` | `boolean` | Elimina una clave existente. |
+| `hasItem(llave)` | `boolean` | Indica si existe una clave. |
+| `clear()` | `boolean` | Limpia **todo el `localStorage` del origen**, no solo los datos de esta librería. |
+
+## Uso de `CacheStorageService`
+
+`CacheStorageService` permite guardar respuestas `Request`/`Response` en Cache Storage. Sus
+operaciones son asíncronas:
+
+Comprueba el soporte antes de usar la API si la aplicación también se ejecuta en entornos
+como SSR
+
+### Métodos
+
+| Método | Resultado | Descripción |
+| --- | --- | --- |
+| `isSupported()` | `boolean` | Indica si el entorno expone Cache Storage. |
+| `openCache(nombreCache)` | `Promise<Cache \| null>` | Abre una caché o la crea. |
+| `hasCache(nombreCache)` | `Promise<boolean>` | Comprueba si existe una caché. |
+| `listCaches()` | `Promise<string[]>` | Lista los nombres de las cachés. |
+| `put(nombreCache, solicitud, respuesta)` | `Promise<boolean>` | Guarda una respuesta; crea la caché si hace falta. |
+| `match(nombreCache, solicitud, opciones?)` | `Promise<Response \| null>` | Busca una respuesta sin crear la caché. |
+| `has(nombreCache, solicitud, opciones?)` | `Promise<boolean>` | Comprueba si hay una respuesta para la solicitud. |
+| `keys(nombreCache)` | `Promise<CacheEntry[]>` | Devuelve las URL y métodos almacenados. |
+| `deleteEntry(nombreCache, solicitud, opciones?)` | `Promise<boolean>` | Elimina una entrada de una caché existente. |
+| `deleteCache(nombreCache)` | `Promise<boolean>` | Elimina una caché completa. |
+| `clear()` | `Promise<boolean>` | Elimina todas las cachés del origen. |
+
+`CacheMatchOptions` permite configurar `ignoreSearch`, `ignoreMethod` e `ignoreVary` al
+buscar o eliminar entradas. `CacheEntry` tiene la forma `{ url: string; method: string }`.
+
+Los métodos manejan internamente los errores de almacenamiento: los registran en la consola
+y devuelven `false`, `null` o un arreglo vacío, según el método.
+
+## Desarrollo de esta librería
+
+Desde la raíz del repositorio:
 
 ```bash
-ng e2e
+npm i
+npm run build
+npm test
+npm run test:coverage
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+El build de la librería se genera en `dist/storage-manager`. Para volver a compilar al cambiar
+el código:
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm run build:dev
+```

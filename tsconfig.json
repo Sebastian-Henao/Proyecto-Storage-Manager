@@ -12,11 +12,6 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "paths": {
-      "storage-manager": [
-        "./dist/storage-manager"
-      ]
-    },
     "target": "ES2022",
     "module": "preserve"
   },
@@ -35,8 +30,8 @@
     {
       "path": "./projects/storage-manager/tsconfig.lib.json"
     },
-    {
-      "path": "./projects/storage-manager/tsconfig.spec.json"
+    { 
+      "path": "./tsconfig.spec.json" 
     }
   ]
 }

@@ -30,9 +30,13 @@
               }
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -75,26 +79,26 @@
         }
       }
     },
-    "storage-manager": {
-      "projectType": "library",
-      "root": "projects/uceva-angular-storage-manager",
-      "sourceRoot": "projects/uceva-angular-storage-manager/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular/build:ng-packagr",
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/uceva-angular-storage-manager/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/uceva-angular-storage-manager/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
+"storage-manager": {
+  "projectType": "library",
+  "root": "projects/storage-manager",
+  "sourceRoot": "projects/storage-manager/src",
+  "prefix": "lib",
+  "architect": {
+    "build": {
+      "builder": "@angular/build:ng-packagr",
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/storage-manager/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/storage-manager/tsconfig.lib.json"
         }
-      }
+      },
+      "defaultConfiguration": "production"
     }
+  }
+}
   },
   "cli": {
     "analytics": false
