@@ -1,0 +1,4 @@
+{
+  "include": ["projects/storage-manager/src/lib/core/**/*.ts"],
+  "exclude": ["src/**/*.ts", "src/**/*.spec.ts", "projects/**/*.spec.ts"]
+}
