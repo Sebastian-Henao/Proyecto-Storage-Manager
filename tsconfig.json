@@ -32,6 +32,9 @@
     },
     {
       "path": "./projects/storage-manager/tsconfig.lib.json"
+    },
+    { 
+      "path": "./tsconfig.spec.json" 
     }
   ]
 }
