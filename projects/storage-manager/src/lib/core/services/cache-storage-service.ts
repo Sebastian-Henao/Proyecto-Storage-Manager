@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+import { CacheEntry } from '../models/cache-entry';
+import { CacheMatchOptions } from '../models/cache-match-options';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,6 +40,61 @@ export class CacheStorageService {
       console.error('Error al listar las cachés:', error);
       return [];
     }
+  }
+
+  async put(nombreCache: string, solicitud: RequestInfo | URL, respuesta: Response): Promise<boolean> {
+    try {
+      const cache = await this.requireCacheStorage().open(nombreCache);
+      await cache.put(solicitud, respuesta);
+      return true;
+    } catch (error) {
+      console.error('Error al guardar en la caché:', error);
+      return false;
+    }
+  }
+
+  async match(
+    nombreCache: string,
+    solicitud: RequestInfo | URL,
+    opciones?: CacheMatchOptions,
+  ): Promise<Response | null> {
+    try {
+      const cache = await this.openExistingCache(nombreCache);
+      if (cache === null) {
+        return null;
+      }
+      return (await cache.match(solicitud, opciones)) ?? null;
+    } catch (error) {
+      console.error('Error al consultar la caché:', error);
+      return null;
+    }
+  }
+
+  async has(
+    nombreCache: string,
+    solicitud: RequestInfo | URL,
+    opciones?: CacheMatchOptions,
+  ): Promise<boolean> {
+    return (await this.match(nombreCache, solicitud, opciones)) !== null;
+  }
+
+  async keys(nombreCache: string): Promise<CacheEntry[]> {
+    try {
+      const cache = await this.openExistingCache(nombreCache);
+      if (cache === null) {
+        return [];
+      }
+      const solicitudes = await cache.keys();
+      return solicitudes.map((solicitud) => ({ url: solicitud.url, method: solicitud.method }));
+    } catch (error) {
+      console.error('Error al obtener las claves de la caché:', error);
+      return [];
+    }
+  }
+
+  private async openExistingCache(nombreCache: string): Promise<Cache | null> {
+    const almacen = this.requireCacheStorage();
+    return (await almacen.has(nombreCache)) ? almacen.open(nombreCache) : null;
   }
 
   private requireCacheStorage(): CacheStorage {
