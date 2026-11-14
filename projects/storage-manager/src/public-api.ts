@@ -3,3 +3,6 @@
  */
 
 export * from './lib/core/services/local-storage-service';
+export * from './lib/core/services/cache-storage-service';
+export * from './lib/core/models/cache-entry';
+export * from './lib/core/models/cache-match-options';
