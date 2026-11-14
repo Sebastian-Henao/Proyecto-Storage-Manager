@@ -1,0 +1,126 @@
+<section class="card demo-card h-100">
+  <div class="card-header demo-card-header">
+    <div class="d-flex align-items-center gap-3">
+      <span class="service-icon cache-icon"><i class="bi bi-database" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="h5 mb-1">Cache Storage</h2>
+        <p class="small text-secondary mb-0">Respuestas Request/Response guardadas por caché</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body d-flex flex-column gap-4">
+    @if (!supported) {
+      <div class="alert alert-warning mb-0" role="alert">
+        <i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>
+        Cache Storage no está disponible en este navegador o contexto.
+      </div>
+    }
+
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label" for="cache-name">Nombre de caché</label>
+        <input
+          id="cache-name"
+          class="form-control"
+          type="text"
+          autocomplete="off"
+          [value]="cacheName()"
+          (input)="cacheName.set($any($event.target).value)"
+        >
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="cache-url">URL del recurso</label>
+        <input
+          id="cache-url"
+          class="form-control font-monospace"
+          type="text"
+          autocomplete="off"
+          [value]="url()"
+          (input)="url.set($any($event.target).value)"
+        >
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="cache-content">Contenido de la respuesta</label>
+        <textarea
+          id="cache-content"
+          class="form-control font-monospace"
+          rows="3"
+          [value]="content()"
+          (input)="content.set($any($event.target).value)"
+        ></textarea>
+      </div>
+    </div>
+
+    <fieldset class="match-options">
+      <legend class="form-label mb-2">Opciones de búsqueda</legend>
+      <div class="d-flex flex-wrap column-gap-3 row-gap-2">
+        <div class="form-check">
+          <input
+            id="ignore-search"
+            class="form-check-input"
+            type="checkbox"
+            [checked]="ignoreSearch()"
+            (change)="ignoreSearch.set($any($event.target).checked)"
+          >
+          <label class="form-check-label small" for="ignore-search">ignoreSearch</label>
+        </div>
+        <div class="form-check">
+          <input
+            id="ignore-method"
+            class="form-check-input"
+            type="checkbox"
+            [checked]="ignoreMethod()"
+            (change)="ignoreMethod.set($any($event.target).checked)"
+          >
+          <label class="form-check-label small" for="ignore-method">ignoreMethod</label>
+        </div>
+        <div class="form-check">
+          <input
+            id="ignore-vary"
+            class="form-check-input"
+            type="checkbox"
+            [checked]="ignoreVary()"
+            (change)="ignoreVary.set($any($event.target).checked)"
+          >
+          <label class="form-check-label small" for="ignore-vary">ignoreVary</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="d-flex flex-wrap gap-2" aria-label="Operaciones de Cache Storage">
+      <button class="btn btn-primary" type="button" (click)="open()">
+        <i class="bi bi-folder2-open me-1" aria-hidden="true"></i>open
+      </button>
+      <button class="btn btn-outline-primary" type="button" (click)="put()">put</button>
+      <button class="btn btn-outline-primary" type="button" (click)="match()">match</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="list()">list</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="keys()">keys</button>
+      <button class="btn btn-outline-danger" type="button" (click)="deleteEntry()">deleteEntry</button>
+      <button class="btn btn-outline-danger" type="button" (click)="deleteCache()">deleteCache</button>
+    </div>
+
+    <section class="results" aria-live="polite">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h3 class="h6 mb-0">Resultados</h3>
+        <span class="small text-secondary">Últimas operaciones</span>
+      </div>
+      @if (results().length === 0) {
+        <p class="empty-state mb-0">Ejecuta una operación para ver aquí su resultado.</p>
+      } @else {
+        <ol class="list-group list-group-flush">
+          @for (result of results(); track result.id) {
+            <li class="list-group-item result-row px-0">
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="result-dot" [class]="`result-dot result-dot--${result.status}`"></span>
+                <strong class="small">{{ result.operation }}</strong>
+                <time class="small text-secondary ms-auto">{{ result.time }}</time>
+              </div>
+              <pre class="small text-secondary">{{ result.message }}</pre>
+            </li>
+          }
+        </ol>
+      }
+    </section>
+  </div>
+</section>

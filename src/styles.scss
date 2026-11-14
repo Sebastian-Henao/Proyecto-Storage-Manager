@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  min-width: 320px;
+  background: #f5f7fb;
+}
+
+body {
+  margin: 0;
+  color: #182230;
+  background: #f5f7fb;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

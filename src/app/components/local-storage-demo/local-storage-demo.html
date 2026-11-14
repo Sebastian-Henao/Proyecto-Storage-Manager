@@ -1,0 +1,89 @@
+<section class="card demo-card h-100">
+  <div class="card-header demo-card-header">
+    <div class="d-flex align-items-center gap-3">
+      <span class="service-icon local-icon"><i class="bi bi-hdd-stack" aria-hidden="true"></i></span>
+      <div>
+        <h2 class="h5 mb-1">Local Storage</h2>
+        <p class="small text-secondary mb-0">Valores persistidos como JSON en el navegador</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body d-flex flex-column gap-4">
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label" for="local-key">Clave</label>
+        <input
+          id="local-key"
+          class="form-control"
+          type="text"
+          autocomplete="off"
+          [value]="key()"
+          (input)="key.set($any($event.target).value)"
+        >
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="local-value">Valor</label>
+        <textarea
+          id="local-value"
+          class="form-control font-monospace"
+          rows="3"
+          [value]="value()"
+          (input)="value.set($any($event.target).value)"
+        ></textarea>
+      </div>
+      <div class="col-12">
+        <div class="form-check">
+          <input
+            id="interpret-json"
+            class="form-check-input"
+            type="checkbox"
+            [checked]="interpretAsJson()"
+            (change)="interpretAsJson.set($any($event.target).checked)"
+          >
+          <label class="form-check-label" for="interpret-json">Interpretar el valor como JSON</label>
+        </div>
+        <p class="form-text mb-0">Desmárcalo para guardar el texto literalmente.</p>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2" aria-label="Operaciones de Local Storage">
+      <button class="btn btn-primary" type="button" (click)="setItem()">
+        <i class="bi bi-plus-circle me-1" aria-hidden="true"></i>setItem
+      </button>
+      <button class="btn btn-outline-primary" type="button" (click)="getItem()">getItem</button>
+      <button class="btn btn-outline-primary" type="button" (click)="updateItem()">updateItem</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="hasItem()">hasItem</button>
+      <button class="btn btn-outline-danger" type="button" (click)="removeItem()">removeItem</button>
+      <button class="btn btn-outline-danger" type="button" (click)="clear()">clear</button>
+    </div>
+
+    <p class="small text-secondary mb-0">
+      <i class="bi bi-exclamation-circle me-1" aria-hidden="true"></i>
+      clear elimina todo el Local Storage de este origen, no solo esta clave.
+    </p>
+
+    <section class="results" aria-live="polite">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h3 class="h6 mb-0">Resultados</h3>
+        <span class="small text-secondary">Últimas operaciones</span>
+      </div>
+      @if (results().length === 0) {
+        <p class="empty-state mb-0">Ejecuta una operación para ver aquí su resultado.</p>
+      } @else {
+        <ol class="list-group list-group-flush">
+          @for (result of results(); track result.id) {
+            <li class="list-group-item result-row px-0">
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="result-dot" [class]="`result-dot result-dot--${result.status}`"></span>
+                <strong class="small">{{ result.operation }}</strong>
+                <time class="small text-secondary ms-auto">{{ result.time }}</time>
+              </div>
+              <pre class="small text-secondary">{{ result.message }}</pre>
+            </li>
+          }
+        </ol>
+      }
+    </section>
+  </div>
+</section>

@@ -12,9 +12,6 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "paths": {
-      "@sebastian-henao/storage-manager": ["./dist/storage-manager"]
-    },
     "target": "ES2022",
     "module": "preserve"
   },
