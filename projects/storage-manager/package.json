@@ -1,5 +1,5 @@
 {
-  "name": "storage-manager",
+  "name": "@sebastian-henao/storage-manager",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^20.3.0",

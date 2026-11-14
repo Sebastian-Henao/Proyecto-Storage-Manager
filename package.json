@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
-    "build": "ng build uceva-angular-storage-manager",
-    "build:dev": "ng build uceva-angular-storage-manager --watch",
+    "build": "ng build storage-manager",
+    "build:dev": "ng build storage-manager --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
