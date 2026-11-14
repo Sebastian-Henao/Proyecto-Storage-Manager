@@ -92,6 +92,44 @@ export class CacheStorageService {
     }
   }
 
+  async deleteEntry(
+    nombreCache: string,
+    solicitud: RequestInfo | URL,
+    opciones?: CacheMatchOptions,
+  ): Promise<boolean> {
+    try {
+      const cache = await this.openExistingCache(nombreCache);
+      if (cache === null) {
+        return false;
+      }
+      return await cache.delete(solicitud, opciones);
+    } catch (error) {
+      console.error('Error al eliminar el recurso de la caché:', error);
+      return false;
+    }
+  }
+
+  async deleteCache(nombreCache: string): Promise<boolean> {
+    try {
+      return await this.requireCacheStorage().delete(nombreCache);
+    } catch (error) {
+      console.error('Error al eliminar la caché:', error);
+      return false;
+    }
+  }
+
+  async clear(): Promise<boolean> {
+    try {
+      const almacen = this.requireCacheStorage();
+      const nombres = await almacen.keys();
+      await Promise.all(nombres.map((nombre) => almacen.delete(nombre)));
+      return true;
+    } catch (error) {
+      console.error('Error al limpiar Cache Storage:', error);
+      return false;
+    }
+  }
+
   private async openExistingCache(nombreCache: string): Promise<Cache | null> {
     const almacen = this.requireCacheStorage();
     return (await almacen.has(nombreCache)) ? almacen.open(nombreCache) : null;
