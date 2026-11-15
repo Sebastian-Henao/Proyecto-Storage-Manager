@@ -45,7 +45,7 @@ jobs:
 
       # 6. Generar build de Angular
       - name: Build Angular
-        run: npm run build -- --base-href "/${{ github.event.repository.name }}/"
+        run: npx ng build uceva-angular-storage-manager --base-href "/${{ github.event.repository.name }}/"
         
       # 7. Configure SPA fallback (Opcional si no se usa el Hash)
       - name: Configure GitHub Pages fallback
